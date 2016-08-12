@@ -1,4 +1,4 @@
-package ir.sharif.random.tictoc;
+package ir.sharif.random.tictoc.view;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import ir.sharif.random.tictoc.MainMVPInterface;
+import ir.sharif.random.tictoc.R;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainView extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
