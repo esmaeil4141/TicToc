@@ -5,11 +5,12 @@ package ir.sharif.random.tictoc;
  */
 public interface MainMVPInterface {
     public interface ProvidedPresenterOps {
-
+        void onConfigurationChanged(RequiredViewOps view);
+        void onDestroy(boolean isChangingConfig);
     }
 
     public interface ProvidedModelOps {
-
+        void onDestroy();
     }
 
     public interface RequiredViewOps {

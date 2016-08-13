@@ -3,6 +3,7 @@ package ir.sharif.random.tictoc.view;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,16 +13,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.R;
+import ir.sharif.random.tictoc.StateMaintainer;
+import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps {
+
+    protected final String TAG = getClass().getSimpleName();
+
+    // Responsible to maintain the Objects state
+    // during changing configuration
+    private final StateMaintainer mStateMaintainer =
+            new StateMaintainer(this.getFragmentManager(), TAG);
+
+    // Presenter operations
+    private MainMVPInterface.ProvidedPresenterOps mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);//todo alaki
         setContentView(R.layout.activity_main);
+        startMVPOps();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -42,6 +58,47 @@ public class MainView extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void startMVPOps() {
+        try {
+            if (mStateMaintainer.firstTimeIn()) {
+                Log.d(TAG, "onCreate() called for the first time");
+                initialize(this);
+            } else {
+                Log.d(TAG, "onCreate() called more than once");
+                reinitialize(this);
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            Log.d(TAG, "onCreate() " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Initialize relevant MVP Objects.
+     * Creates a Presenter instance, saves the presenter in {@link StateMaintainer}
+     */
+    private void initialize(MainMVPInterface.RequiredViewOps view)
+            throws InstantiationException, IllegalAccessException {
+        mPresenter = new MainPresenter(view);
+        mStateMaintainer.put(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName(), mPresenter);
+    }
+
+    /**
+     * Recovers Presenter and informs Presenter that occurred a config change.
+     * If Presenter has been lost, recreates a instance
+     */
+    private void reinitialize(MainMVPInterface.RequiredViewOps view)
+            throws InstantiationException, IllegalAccessException {
+        mPresenter = mStateMaintainer.get(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName());
+
+        if (mPresenter == null) {
+            Log.w(TAG, "recreating Presenter");
+            initialize(view);
+        } else {
+            mPresenter.onConfigurationChanged(view);
+        }
     }
 
     @Override
