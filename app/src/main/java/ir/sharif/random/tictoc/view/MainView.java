@@ -1,5 +1,6 @@
 package ir.sharif.random.tictoc.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,9 +15,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.R;
 import ir.sharif.random.tictoc.StateMaintainer;
+import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
+import ir.sharif.random.tictoc.model.localDataBase.DataSource;
 import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
@@ -28,7 +34,7 @@ public class MainView extends AppCompatActivity
     // during changing configuration
     private final StateMaintainer mStateMaintainer =
             new StateMaintainer(this.getFragmentManager(), TAG);
-
+    DataBaseService dataBaseService;
     // Presenter operations
     private MainMVPInterface.ProvidedPresenterOps mPresenter;
 
@@ -36,6 +42,7 @@ public class MainView extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);//todo alaki
         setContentView(R.layout.activity_main);
+        dataBaseService=new DataSource(this);
         startMVPOps();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -45,8 +52,9 @@ public class MainView extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+                mPresenter.createNewTask();
             }
         });
 
@@ -58,16 +66,18 @@ public class MainView extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     public void startMVPOps() {
         try {
             if (mStateMaintainer.firstTimeIn()) {
                 Log.d(TAG, "onCreate() called for the first time");
-                initialize(this);
+                initialize(this,dataBaseService);
             } else {
                 Log.d(TAG, "onCreate() called more than once");
-                reinitialize(this);
+                reinitialize(this,dataBaseService);
             }
         } catch (InstantiationException | IllegalAccessException e) {
             Log.d(TAG, "onCreate() " + e);
@@ -79,9 +89,9 @@ public class MainView extends AppCompatActivity
      * Initialize relevant MVP Objects.
      * Creates a Presenter instance, saves the presenter in {@link StateMaintainer}
      */
-    private void initialize(MainMVPInterface.RequiredViewOps view)
+    private void initialize(MainMVPInterface.RequiredViewOps view , DataBaseService service)
             throws InstantiationException, IllegalAccessException {
-        mPresenter = new MainPresenter(view);
+        mPresenter = new MainPresenter(view,service);
         mStateMaintainer.put(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName(), mPresenter);
     }
 
@@ -89,13 +99,13 @@ public class MainView extends AppCompatActivity
      * Recovers Presenter and informs Presenter that occurred a config change.
      * If Presenter has been lost, recreates a instance
      */
-    private void reinitialize(MainMVPInterface.RequiredViewOps view)
+    private void reinitialize(MainMVPInterface.RequiredViewOps view ,DataBaseService service )
             throws InstantiationException, IllegalAccessException {
         mPresenter = mStateMaintainer.get(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName());
 
         if (mPresenter == null) {
             Log.w(TAG, "recreating Presenter");
-            initialize(view);
+            initialize(view,service);
         } else {
             mPresenter.onConfigurationChanged(view);
         }
@@ -156,5 +166,10 @@ public class MainView extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void goToTaskCreationView() {
+
     }
 }

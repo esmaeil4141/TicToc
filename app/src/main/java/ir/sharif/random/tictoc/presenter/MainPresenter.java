@@ -1,8 +1,11 @@
 package ir.sharif.random.tictoc.presenter;
 
+import android.content.Context;
+
 import java.lang.ref.WeakReference;
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.model.MainModel;
+import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
 
 /**
  * Created by Esmaeil Gholami on 2016/08/12.
@@ -18,9 +21,9 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
     private boolean mIsChangingConfig;
 
     //constructor method
-    public MainPresenter(MainMVPInterface.RequiredViewOps mView) {
+    public MainPresenter(MainMVPInterface.RequiredViewOps mView, DataBaseService service) {
         this.mView = new WeakReference<>(mView);
-        this.mModel = new MainModel(this);
+        this.mModel = new MainModel(this,service);
     }
 
     /**
@@ -29,7 +32,7 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
      */
     @Override
     public void onConfigurationChanged(MainMVPInterface.RequiredViewOps view) {
-        mView = new WeakReference<>(view);
+        this.mView = new WeakReference<>(view);
     }
 
     /**
@@ -43,6 +46,11 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
         if ( !isChangingConfig ) {
             mModel.onDestroy();
         }
+    }
+
+    @Override
+    public void createNewTask() {
+        mView.get().goToTaskCreationView();
     }
 
 }

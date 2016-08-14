@@ -1,78 +1,94 @@
 package ir.sharif.random.tictoc.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by Mojtaba on 8/13/2016.
  */
 public class Task {
+    private long id;
     private String title;
     private Category category;
-    private Date date;
-    private long startTime;
-    private long endTime;
+    private String date;
+    private String startTime;
+    private String endTime;
     private ArrayList<SubTask> subTasks;
-    private long repeatPeriod=0;
+    private int repeatPeriod = 0; // in days
 
-    public Task(String title, Date date) {
+    public Task(String title) {
         this.title = title;
-        this.date = date;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public Task setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public Task setCategory(Category category) {
         this.category = category;
+        return this;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public Task setDate(String date) {
         this.date = date;
+        return this;
     }
 
-    public long getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(long startTime) {
+    public Task setStartTime(String startTime) {
         this.startTime = startTime;
+        return this;
     }
 
-    public long getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(long endTime) {
+    public Task setEndTime(String endTime) {
         this.endTime = endTime;
+        return this;
     }
 
     public ArrayList<SubTask> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(ArrayList<SubTask> subTasks) {
+    public Task setSubTasks(ArrayList<SubTask> subTasks) {
         this.subTasks = subTasks;
+        return this;
     }
 
-    public long getRepeatPeriod() {
+    public int getRepeatPeriod() {
         return repeatPeriod;
     }
 
-    public void setRepeatPeriod(long repeatPeriod) {
+    public Task setRepeatPeriod(int repeatPeriod) {
         this.repeatPeriod = repeatPeriod;
+        return this;
     }
 }
