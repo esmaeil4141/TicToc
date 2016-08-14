@@ -1,9 +1,7 @@
 package ir.sharif.random.tictoc.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -26,7 +24,8 @@ import ir.sharif.random.tictoc.model.localDataBase.DataSource;
 import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps {
+        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps,FragmentCreateTask.CallBack
+    {
 
     protected final String TAG = getClass().getSimpleName();
 
@@ -52,11 +51,10 @@ public class MainView extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-                mPresenter.createNewTask();
+                mPresenter.newTaskCreationClicked();
             }
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -93,6 +91,7 @@ public class MainView extends AppCompatActivity
             throws InstantiationException, IllegalAccessException {
         mPresenter = new MainPresenter(view,service);
         mStateMaintainer.put(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName(), mPresenter);
+
     }
 
     /**
@@ -170,6 +169,29 @@ public class MainView extends AppCompatActivity
 
     @Override
     public void goToTaskCreationView() {
+        FragmentCreateTask fragment = new FragmentCreateTask();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_fragment_container,fragment)
+                .commit();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide();
 
     }
-}
+
+        @Override
+        public void showAllTasks(ArrayList<Task> tasks) {
+            FragmentTaskList fragment = new FragmentTaskList();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.main_fragment_container,fragment)
+                    .commit();
+            Bundle bundle = new Bundle();
+
+            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.show();
+        }
+
+        @Override
+        public void onCreateTaskClicked(Task task) {
+            mPresenter.createNewTask(task);
+        }
+    }

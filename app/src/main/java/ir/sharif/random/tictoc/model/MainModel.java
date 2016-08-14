@@ -1,6 +1,7 @@
 package ir.sharif.random.tictoc.model;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
@@ -24,4 +25,13 @@ public class MainModel implements MainMVPInterface.ProvidedModelOps {
         mPresenter=null; // let presenter be available for GC
     }
 
+    @Override
+    public void createTask(Task task) {
+        dataBaseService.get().create(task);
+    }
+
+    @Override
+    public ArrayList<Task> getAllTasks(){
+        return dataBaseService.get().findAllTasks();
+    }
 }
