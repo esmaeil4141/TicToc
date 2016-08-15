@@ -2,7 +2,7 @@ package ir.sharif.random.tictoc.model.localDataBase;
 
 import java.util.ArrayList;
 
-import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.Entity.Task;
 
 /**
  * Created by Mojtaba on 8/14/2016.

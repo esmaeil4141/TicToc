@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ir.sharif.random.tictoc.R;
-import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.Entity.Task;
 
 /**
  * Created by Mojtaba on 8/14/2016.
@@ -20,6 +20,10 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
     Context context;
     int row_resource_xml;
     ArrayList<Task> tasks;
+
+    public void updateTaskList(ArrayList<Task> tasks){
+        this.tasks=tasks;
+    }
 
     public TaskArrayAdapter(Context context, int resource , ArrayList<Task> tasks) {
         super(context, resource);

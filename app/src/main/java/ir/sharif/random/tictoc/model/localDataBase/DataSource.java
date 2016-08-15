@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import java.util.ArrayList;
 
-import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.Entity.Task;
 
 /**
  * Created by Mojtaba on 8/13/2016.

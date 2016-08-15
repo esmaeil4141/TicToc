@@ -18,17 +18,20 @@ import java.util.ArrayList;
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.R;
 import ir.sharif.random.tictoc.StateMaintainer;
-import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.Entity.Task;
 import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
 import ir.sharif.random.tictoc.model.localDataBase.DataSource;
 import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps,FragmentCreateTask.CallBack
-    {
+        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps, FragmentCreateTask.CallBack {
 
     protected final String TAG = getClass().getSimpleName();
+    private final String CREATE_TASK_FRAGMENT_TAG = "CreateTaskFragment";
+    private final String TASK_LIST_FRAGMENT_TAG = "TaskListFragment";
 
+    private FragmentTaskList fragmentTaskList;
+    private FragmentCreateTask fragmentCreateTask;
     // Responsible to maintain the Objects state
     // during changing configuration
     private final StateMaintainer mStateMaintainer =
@@ -41,7 +44,7 @@ public class MainView extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);//todo alaki
         setContentView(R.layout.activity_main);
-        dataBaseService=new DataSource(this);
+        dataBaseService = new DataSource(this);
         startMVPOps();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,16 +69,29 @@ public class MainView extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        fragmentTaskList =
+                (FragmentTaskList) getFragmentManager().findFragmentByTag(TASK_LIST_FRAGMENT_TAG);
+        if (fragmentTaskList == null) {
+            // Create the fragment
+            fragmentTaskList = new FragmentTaskList();
+        }
+        fragmentCreateTask =
+                (FragmentCreateTask) getFragmentManager().findFragmentByTag(CREATE_TASK_FRAGMENT_TAG);
+        if (fragmentCreateTask == null) {
+            // Create the fragment
+            fragmentCreateTask = new FragmentCreateTask();
+        }
+
     }
 
     public void startMVPOps() {
         try {
             if (mStateMaintainer.firstTimeIn()) {
                 Log.d(TAG, "onCreate() called for the first time");
-                initialize(this,dataBaseService);
+                initialize(this, dataBaseService);
             } else {
                 Log.d(TAG, "onCreate() called more than once");
-                reinitialize(this,dataBaseService);
+                reinitialize(this, dataBaseService);
             }
         } catch (InstantiationException | IllegalAccessException e) {
             Log.d(TAG, "onCreate() " + e);
@@ -87,9 +103,9 @@ public class MainView extends AppCompatActivity
      * Initialize relevant MVP Objects.
      * Creates a Presenter instance, saves the presenter in {@link StateMaintainer}
      */
-    private void initialize(MainMVPInterface.RequiredViewOps view , DataBaseService service)
+    private void initialize(MainMVPInterface.RequiredViewOps view, DataBaseService service)
             throws InstantiationException, IllegalAccessException {
-        mPresenter = new MainPresenter(view,service);
+        mPresenter = new MainPresenter(view, service);
         mStateMaintainer.put(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName(), mPresenter);
 
     }
@@ -98,13 +114,13 @@ public class MainView extends AppCompatActivity
      * Recovers Presenter and informs Presenter that occurred a config change.
      * If Presenter has been lost, recreates a instance
      */
-    private void reinitialize(MainMVPInterface.RequiredViewOps view ,DataBaseService service )
+    private void reinitialize(MainMVPInterface.RequiredViewOps view, DataBaseService service)
             throws InstantiationException, IllegalAccessException {
         mPresenter = mStateMaintainer.get(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName());
 
         if (mPresenter == null) {
             Log.w(TAG, "recreating Presenter");
-            initialize(view,service);
+            initialize(view, service);
         } else {
             mPresenter.onConfigurationChanged(view);
         }
@@ -168,30 +184,27 @@ public class MainView extends AppCompatActivity
     }
 
     @Override
-    public void goToTaskCreationView() {
-        FragmentCreateTask fragment = new FragmentCreateTask();
+    public void showTaskCreationView() {
         getFragmentManager().beginTransaction()
-                .replace(R.id.main_fragment_container,fragment)
+                .replace(R.id.main_fragment_container, fragmentCreateTask,CREATE_TASK_FRAGMENT_TAG)
                 .commit();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide();
-
     }
 
-        @Override
-        public void showAllTasks(ArrayList<Task> tasks) {
-            FragmentTaskList fragment = new FragmentTaskList();
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.main_fragment_container,fragment)
-                    .commit();
-            Bundle bundle = new Bundle();
+    @Override
+    public void showAllTasks(ArrayList<Task> tasks) {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_fragment_container, fragmentTaskList,TASK_LIST_FRAGMENT_TAG)
+                .commit();
 
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.show();
-        }
-
-        @Override
-        public void onCreateTaskClicked(Task task) {
-            mPresenter.createNewTask(task);
-        }
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.show();
+        fragmentTaskList.updateTaskList(tasks);
     }
+
+    @Override
+    public void onCreateTaskClicked(Task task) {
+        mPresenter.createNewTask(task);
+    }
+}
