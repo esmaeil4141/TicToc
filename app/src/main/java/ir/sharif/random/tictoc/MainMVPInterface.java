@@ -1,10 +1,8 @@
 package ir.sharif.random.tictoc;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 
-import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.entity.Task;
 
 /**
  * Created by Esmaeil Gholami on 2016/08/12.
@@ -26,7 +24,7 @@ public interface MainMVPInterface {
     }
 
     public interface RequiredViewOps {
-        void goToTaskCreationView();
+        void showTaskCreationView();
         void showAllTasks(ArrayList<Task> tasks);
     }
 

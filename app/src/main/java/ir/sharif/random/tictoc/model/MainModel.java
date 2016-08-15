@@ -4,8 +4,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import ir.sharif.random.tictoc.MainMVPInterface;
+import ir.sharif.random.tictoc.model.entity.Task;
 import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
-import ir.sharif.random.tictoc.model.localDataBase.DataSource;
 
 /**
  * Created by Esmaeil Gholami on 2016/08/12.

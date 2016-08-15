@@ -1,13 +1,11 @@
 package ir.sharif.random.tictoc.presenter;
 
-import android.content.Context;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.model.MainModel;
-import ir.sharif.random.tictoc.model.Task;
+import ir.sharif.random.tictoc.model.entity.Task;
 import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
 
 /**
@@ -53,12 +51,14 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
 
     @Override
     public void newTaskCreationClicked() {
-        mView.get().goToTaskCreationView();
+        mView.get().showTaskCreationView();
     }
 
     @Override
     public void createNewTask(Task task) {
         mModel.createTask(task);
+        ArrayList<Task> tasks = mModel.getAllTasks();
+        mView.get().showAllTasks(tasks);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ir.sharif.random.tictoc.model;
+package ir.sharif.random.tictoc.model.entity;
 
 /**
  * Created by Mojtaba on 8/13/2016.
