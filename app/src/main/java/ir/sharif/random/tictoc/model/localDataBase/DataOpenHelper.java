@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class DataOpenHelper extends SQLiteOpenHelper{
     public final String TAG = this.getClass().getSimpleName();
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME ="DataBase.db" ;
     public static final String TABLE_Task ="TASK" ;
 
@@ -23,7 +23,7 @@ public class DataOpenHelper extends SQLiteOpenHelper{
 
     private static final String TASK_TABLE_CREATE = "CREATE TABLE "+ TABLE_Task +
             " ( "+
-            COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , " +
+            COLUMN_ID +" INTEGER PRIMARY KEY AUTOINCREMENT , " +
             COLUMN_TITLE +" TEXT ," +
             COLUMN_DATE +" TEXT ," +
             COLUMN_START_TIME +" TEXT ," +
@@ -46,5 +46,12 @@ public class DataOpenHelper extends SQLiteOpenHelper{
         db.execSQL("drop table if exists "+ TABLE_Task );
         onCreate(db);
         Log.i(TAG, "database ReCreated");
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table if exists "+ TABLE_Task );
+        onCreate(db);
+        Log.i(TAG, "database ReCreated in downGrade");
     }
 }

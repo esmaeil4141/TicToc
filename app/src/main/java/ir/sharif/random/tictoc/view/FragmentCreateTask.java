@@ -30,7 +30,7 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.fragment_task_create, container, false);
+        View root = inflater.inflate(R.layout.fragment_task_create, container, false);
         Button button = (Button) root.findViewById(R.id.buttonTimePick);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +53,7 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText title = (EditText) root.findViewById(R.id.title);
+                EditText title = (EditText) FragmentCreateTask.this.getActivity().findViewById(R.id.title);
                 task.setTitle(title.getText().toString());
                 callback.onCreateTaskClicked(task);
             }
