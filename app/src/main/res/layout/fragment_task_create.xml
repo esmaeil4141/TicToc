@@ -9,25 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:hint="Title" />
+        android:hint="@string/title_hint" />
 
     <Button
         android:id="@+id/buttonDatePick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Date" />
+        android:text="@string/task_create_date" />
 
     <Button
         android:id="@+id/buttonStartTimePick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Time (Optional)" />
+        android:text="@string/task_create_start_time" />
 
     <Button
         android:id="@+id/buttonEndTimePick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="End Time (Optional)" />
+        android:text="@string/task_create_end_time" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.8"
             android:layout_height="wrap_content"
-            android:text="Repeating Period"
+            android:text="@string/task_create_repeating_period"
             android:textSize="15sp" />
         <Spinner
             android:id="@+id/periodSpinner"
@@ -55,6 +55,6 @@
         android:id="@+id/addTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Add" />
+        android:layout_gravity="end"
+        android:text="@string/create_task_add" />
 </LinearLayout>

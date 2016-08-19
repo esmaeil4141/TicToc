@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import ir.sharif.random.tictoc.MainMVPInterface;
 import ir.sharif.random.tictoc.R;
@@ -43,6 +44,7 @@ public class MainView extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getBaseContext().getResources().getConfiguration().setLocale(new Locale("fa"));
         super.onCreate(savedInstanceState);//todo alaki
         setContentView(R.layout.activity_main);
         dataBaseService = new DataSource(this);

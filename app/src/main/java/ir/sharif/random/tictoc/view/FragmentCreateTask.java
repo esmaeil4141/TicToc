@@ -93,9 +93,8 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
         });
 
         Spinner dropdown = (Spinner) root.findViewById(R.id.periodSpinner);
-        String[] items = new String[]{"No Repeat", "every day", "every week", "every month"};
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext()
-                , android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(), R.array.repeatModes,
+                android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
