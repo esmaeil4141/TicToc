@@ -24,7 +24,8 @@ import ir.sharif.random.tictoc.model.localDataBase.DataSource;
 import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps, FragmentCreateTask.CallBack {
+        implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps
+        , FragmentCreateTask.CallBack , FragmentTaskList.CallBack {
 
     protected final String TAG = getClass().getSimpleName();
     private final String CREATE_TASK_FRAGMENT_TAG = "CreateTaskFragment";
@@ -81,7 +82,7 @@ public class MainView extends AppCompatActivity
             // Create the fragment
             fragmentCreateTask = new FragmentCreateTask();
         }
-
+        mPresenter.onCreate();
     }
 
     public void startMVPOps() {
@@ -175,9 +176,7 @@ public class MainView extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -186,25 +185,34 @@ public class MainView extends AppCompatActivity
     @Override
     public void showTaskCreationView() {
         getFragmentManager().beginTransaction()
-                .replace(R.id.main_fragment_container, fragmentCreateTask,CREATE_TASK_FRAGMENT_TAG)
+                .replace(R.id.main_fragment_container, fragmentCreateTask, CREATE_TASK_FRAGMENT_TAG)
                 .commit();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide();
     }
 
     @Override
-    public void showAllTasks(ArrayList<Task> tasks) {
+    public void showTaskListView() {
         getFragmentManager().beginTransaction()
-                .replace(R.id.main_fragment_container, fragmentTaskList,TASK_LIST_FRAGMENT_TAG)
+                .replace(R.id.main_fragment_container, fragmentTaskList, TASK_LIST_FRAGMENT_TAG)
                 .commit();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.show();
+    }
+
+    @Override
+    public void showAllTasks(ArrayList<Task> tasks) {
         fragmentTaskList.updateTaskList(tasks);
     }
 
     @Override
     public void onCreateTaskClicked(Task task) {
         mPresenter.createNewTask(task);
+    }
+
+    @Override
+    public void onTaskListReady() {
+        mPresenter.onTaskListViewCreated();
     }
 }

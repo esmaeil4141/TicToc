@@ -64,7 +64,7 @@ public class DataSource implements DataBaseService{
     private ArrayList<Task> cursorToArrayList(Cursor cursor) {
         ArrayList<Task> tasks = new ArrayList<>();
         while(cursor.moveToNext()){
-            Task task=new Task("temp");
+            Task task=new Task("temp","temp");
             task.setTitle(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_TITLE)));
             task.setDate(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_DATE)));
             task.setStartTime(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_START_TIME)));

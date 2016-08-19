@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class DataOpenHelper extends SQLiteOpenHelper{
     public final String TAG = this.getClass().getSimpleName();
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME ="DataBase.db" ;
     public static final String TABLE_Task ="TASK" ;
 

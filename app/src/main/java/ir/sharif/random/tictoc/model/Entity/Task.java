@@ -15,8 +15,9 @@ public class Task {
     private ArrayList<SubTask> subTasks;
     private int repeatPeriod = 0; // in days
 
-    public Task(String title) {
+    public Task(String title, String date) {
         this.title = title;
+        this.date = date;
     }
 
     public long getId() {

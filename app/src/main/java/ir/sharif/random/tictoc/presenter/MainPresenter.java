@@ -57,14 +57,18 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
     @Override
     public void createNewTask(Task task) {
         mModel.createTask(task);
+        mView.get().showTaskListView();
+    }
+
+    @Override
+    public void onTaskListViewCreated() {
         ArrayList<Task> tasks = mModel.getAllTasks();
         mView.get().showAllTasks(tasks);
     }
 
     @Override
     public void onCreate() {
-        ArrayList<Task> tasks = mModel.getAllTasks();
-        mView.get().showAllTasks(tasks);
+        mView.get().showTaskListView();
     }
 
 

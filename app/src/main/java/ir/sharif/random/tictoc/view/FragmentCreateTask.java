@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -24,7 +25,8 @@ import ir.sharif.random.tictoc.model.entity.Task;
  * Created by Mojtaba on 8/14/2016.
  */
 public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnDateSetListener {
-    private Task task = new Task("temp");
+    private String title;
+    private String date;
     private CallBack callback;
 
     @Nullable
@@ -53,9 +55,15 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText title = (EditText) FragmentCreateTask.this.getActivity().findViewById(R.id.title);
-                task.setTitle(title.getText().toString());
-                callback.onCreateTaskClicked(task);
+                EditText titleBox = (EditText) FragmentCreateTask.this.getActivity().findViewById(R.id.title);
+                title = titleBox.getText().toString();
+                if (title != null && !title.equals("") && date != null) {
+                    callback.onCreateTaskClicked(new Task(title, date));
+                }
+                else{
+                    Toast.makeText(FragmentCreateTask.this.getContext()
+                            ,"Title or Date or both are not set",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -66,8 +74,8 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
         c.set(year, monthOfYear, dayOfMonth);
-        String string = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
-        task.setDate(string);
+        date = (new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
+
     }
 
 

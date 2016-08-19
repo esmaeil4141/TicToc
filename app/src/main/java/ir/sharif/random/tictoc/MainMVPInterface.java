@@ -10,21 +10,33 @@ import ir.sharif.random.tictoc.model.entity.Task;
 public interface MainMVPInterface {
 
     public interface ProvidedPresenterOps {
-        void onConfigurationChanged(RequiredViewOps view);
-        void onDestroy(boolean isChangingConfig);
-        void newTaskCreationClicked();
-        void createNewTask(Task task);
         void onCreate();
+
+        void onConfigurationChanged(RequiredViewOps view);
+
+        void onDestroy(boolean isChangingConfig);
+
+        void newTaskCreationClicked();
+
+        void createNewTask(Task task);
+
+        void onTaskListViewCreated();
+
     }
 
     public interface ProvidedModelOps {
         void onDestroy();
+
         void createTask(Task task);
+
         ArrayList<Task> getAllTasks();
     }
 
     public interface RequiredViewOps {
         void showTaskCreationView();
+
+        void showTaskListView();
+
         void showAllTasks(ArrayList<Task> tasks);
     }
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ir.sharif.random.tictoc.R;
 import ir.sharif.random.tictoc.model.entity.Task;
@@ -17,34 +17,43 @@ import ir.sharif.random.tictoc.model.entity.Task;
  */
 public class TaskArrayAdapter extends ArrayAdapter<Task> {
 
-    Context context;
-    int row_resource_xml;
-    ArrayList<Task> tasks;
+    Context context = null;
+    int row_resource_xml = 0;
+    List<Task> tasks = null;
 
-    public void updateTaskList(ArrayList<Task> tasks){
-        this.tasks=tasks;
+    public void updateTaskList(List<Task> tasks) {
+        this.tasks = tasks;
+        notifyDataSetChanged();
     }
 
-    public TaskArrayAdapter(Context context, int resource , ArrayList<Task> tasks) {
-        super(context, resource);
-        this.context=context;
-        this.row_resource_xml=resource;
-        this.tasks=tasks;
+    public TaskArrayAdapter(Context context, int resource, List<Task> tasks) {
+        super(context, resource, tasks);
+        this.context = context;
+        this.row_resource_xml = resource;
+        this.tasks = tasks;
     }
+
+    @Override
+    public int getCount() {
+        return this.tasks.size();
+    }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 //        return super.getView(position, convertView, parent);
-        View row=convertView;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        row = inflater.inflate(row_resource_xml,parent,false );
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            convertView = inflater.inflate(row_resource_xml, parent, false);
+        }
 
-        TextView title = (TextView) row.findViewById(R.id.title);
-        TextView number = (TextView)row.findViewById(R.id.Date);
+        TextView title = (TextView) convertView.findViewById(R.id.title);
+        TextView date = (TextView) convertView.findViewById(R.id.Date);
 
         title.setText(tasks.get(position).getTitle());
-        number.setText(tasks.get(position).getDate());
-        return row;
+        date.setText(tasks.get(position).getDate());
+        return convertView;
 
     }
 }
