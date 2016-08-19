@@ -1,18 +1,26 @@
 package ir.sharif.random.tictoc.view;
 
 
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
+import com.mohamadamin.persianmaterialdatetimepicker.time.RadialPickerLayout;
+import com.mohamadamin.persianmaterialdatetimepicker.time.TimePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
 import java.text.SimpleDateFormat;
@@ -27,19 +35,20 @@ import ir.sharif.random.tictoc.model.entity.Task;
 public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnDateSetListener {
     private String title;
     private String date;
+    private String startTime;
+    private String endTime;
+    private int repeat = 0;
     private CallBack callback;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_task_create, container, false);
-        Button button = (Button) root.findViewById(R.id.buttonTimePick);
 
+        Button button = (Button) root.findViewById(R.id.buttonDatePick);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                DialogFragment newFragment = new DatePickerFragment();
-//                newFragment.show(getFragmentManager(), "datePicker");
                 PersianCalendar persianCalendar = new PersianCalendar();
 
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
@@ -51,6 +60,69 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
                 datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
             }
         });
+
+        Button startTimeButton = (Button) root.findViewById(R.id.buttonStartTimePick);
+        startTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PersianCalendar persianCalendar = new PersianCalendar();
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                                startTime = hourOfDay + ":" + minute + ":" + "00";
+                            }
+                        }, 0, 0, true);
+                timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
+            }
+        });
+        final Button endTimeButton = (Button) root.findViewById(R.id.buttonEndTimePick);
+        endTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PersianCalendar persianCalendar = new PersianCalendar();
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                                endTime = hourOfDay + ":" + minute + ":" + "00";
+                            }
+                        }, 0, 0, true);
+                timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
+            }
+        });
+
+        Spinner dropdown = (Spinner) root.findViewById(R.id.periodSpinner);
+        String[] items = new String[]{"No Repeat", "every day", "every week", "every month"};
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getContext()
+                , android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        repeat = 0;
+                        break;
+                    case 1:
+                        repeat = 7;
+                        break;
+                    case 2:
+                        repeat = 30;
+                        break;
+                    case 3:
+                        repeat = 365;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
         button = (Button) root.findViewById(R.id.addTask);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,11 +130,10 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
                 EditText titleBox = (EditText) FragmentCreateTask.this.getActivity().findViewById(R.id.title);
                 title = titleBox.getText().toString();
                 if (title != null && !title.equals("") && date != null) {
-                    callback.onCreateTaskClicked(new Task(title, date));
-                }
-                else{
+                    callback.onCreateTaskClicked(new Task(title, date).setStartTime(startTime).setEndTime(endTime));
+                } else {
                     Toast.makeText(FragmentCreateTask.this.getContext()
-                            ,"Title or Date or both are not set",Toast.LENGTH_LONG).show();
+                            , "Title or Date or both are not set", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -77,7 +148,6 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
         date = (new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
 
     }
-
 
     @Override
     public void onAttach(Context context) {

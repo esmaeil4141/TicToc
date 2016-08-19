@@ -12,14 +12,49 @@
         android:hint="Title" />
 
     <Button
-        android:id="@+id/buttonTimePick"
+        android:id="@+id/buttonDatePick"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Date" />
+
+    <Button
+        android:id="@+id/buttonStartTimePick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Time (Optional)" />
+
+    <Button
+        android:id="@+id/buttonEndTimePick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Time (Optional)" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:text="Repeating Period"
+            android:textSize="15sp" />
+        <Spinner
+            android:id="@+id/periodSpinner"
+            android:layout_width="0dp"
+            android:layout_weight="1.2"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
     <Button
         android:id="@+id/addTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
-        android:layout_gravity="right" />
+        android:layout_gravity="right"
+        android:text="Add" />
 </LinearLayout>

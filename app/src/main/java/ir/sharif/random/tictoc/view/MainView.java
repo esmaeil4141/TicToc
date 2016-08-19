@@ -25,7 +25,7 @@ import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps
-        , FragmentCreateTask.CallBack , FragmentTaskList.CallBack {
+        , FragmentCreateTask.CallBack, FragmentTaskList.CallBack {
 
     protected final String TAG = getClass().getSimpleName();
     private final String CREATE_TASK_FRAGMENT_TAG = "CreateTaskFragment";
@@ -58,6 +58,7 @@ public class MainView extends AppCompatActivity
                 mPresenter.newTaskCreationClicked();
             }
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
