@@ -12,6 +12,7 @@ public class Task {
     private String date;
     private String startTime;
     private String endTime;
+    private boolean isCompleted = false; // the default value is no completed
     private ArrayList<SubTask> subTasks;
     private int repeatPeriod = 0; // in days
 
@@ -88,6 +89,15 @@ public class Task {
 
     public Task setRepeatPeriod(int repeatPeriod) {
         this.repeatPeriod = repeatPeriod;
+        return this;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public Task setCompleted(boolean completed) {
+        isCompleted = completed;
         return this;
     }
 }
