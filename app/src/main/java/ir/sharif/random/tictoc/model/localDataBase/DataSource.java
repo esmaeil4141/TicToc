@@ -35,6 +35,7 @@ public class DataSource implements DataBaseService{
         ContentValues values = new ContentValues();
         values.put(DataOpenHelper.COLUMN_TITLE,task.getTitle());
         values.put(DataOpenHelper.COLUMN_DATE,task.getDate());
+        values.put(DataOpenHelper.COLUMN_DESCRIPTION, task.getDescription());
         values.put(DataOpenHelper.COLUMN_START_TIME, task.getStartTime());
         values.put(DataOpenHelper.COLUMN_END_TIME,task.getEndTime());
         values.put(DataOpenHelper.COLUMN_IS_COMPLETED,task.isCompleted());
@@ -47,7 +48,7 @@ public class DataSource implements DataBaseService{
 
     public ArrayList<Task> findAllTasks(){
         open();
-        String[] colomns = {DataOpenHelper.COLUMN_TITLE , DataOpenHelper.COLUMN_DATE
+        String[] colomns = {DataOpenHelper.COLUMN_TITLE, DataOpenHelper.COLUMN_DATE, DataOpenHelper.COLUMN_DESCRIPTION
                 ,DataOpenHelper.COLUMN_START_TIME,DataOpenHelper.COLUMN_END_TIME,
                 DataOpenHelper.COLUMN_IS_COMPLETED,DataOpenHelper.COLUMN_REPEAT_PERIOD};
         Cursor cursor = database.query(DataOpenHelper.TABLE_Task,colomns,null,null,null,null,null);
@@ -69,6 +70,7 @@ public class DataSource implements DataBaseService{
             Task task=new Task("temp","temp");
             task.setTitle(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_TITLE)));
             task.setDate(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_DATE)));
+            task.setDescription(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_DESCRIPTION)));
             task.setStartTime(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_START_TIME)));
             task.setEndTime(cursor.getString(cursor.getColumnIndex(DataOpenHelper.COLUMN_END_TIME)));
             task.setCompleted(cursor.getInt(cursor.getColumnIndex(DataOpenHelper.COLUMN_IS_COMPLETED))!=0); // convert integer value to boolean

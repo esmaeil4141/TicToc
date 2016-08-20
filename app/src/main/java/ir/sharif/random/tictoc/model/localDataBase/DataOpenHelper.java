@@ -10,13 +10,14 @@ import android.util.Log;
  */
 public class DataOpenHelper extends SQLiteOpenHelper{
     public final String TAG = this.getClass().getSimpleName();
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME ="DataBase.db" ;
     public static final String TABLE_Task ="TASK" ;
 
     public static final String COLUMN_ID= "ID";
     public static final String COLUMN_TITLE= "TITLE";
     public static final String COLUMN_DATE= "DATE";
+    public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
     public static final String COLUMN_START_TIME = "START";
     public static final String COLUMN_END_TIME= "END";
     public static final String COLUMN_IS_COMPLETED= "ISCOMPLETED";
@@ -28,6 +29,7 @@ public class DataOpenHelper extends SQLiteOpenHelper{
             COLUMN_TITLE +" TEXT ," +
             COLUMN_DATE +" TEXT ," +
             COLUMN_START_TIME +" TEXT ," +
+            COLUMN_DESCRIPTION + " TEXT ," +
             COLUMN_END_TIME +" TEXT ," +
             COLUMN_IS_COMPLETED +" INTEGER ," +
             COLUMN_REPEAT_PERIOD + " INTEGER );";
