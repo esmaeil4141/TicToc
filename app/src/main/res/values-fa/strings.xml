@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">
+        تیک تاک
+    </string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">
+        تنظیمات
+    </string>
+    <string name="title_hint">
+        کار مورد نظر
+    </string>
+    <string name="task_create_date">تاریخ</string>
+    <string name="task_create_start_time">
+        زمان شروع (دلخواه)
+    </string>
+    <string name="task_create_end_time">
+        زمان پایان (دلخواه)
+    </string>
+    <string name="task_create_repeating_period">
+        تکرار
+    </string>
+    <string name="create_task_add">
+        اضافه کن
+    </string>
+    <string name="tic_toc">
+        تیک تاک
+    </string>
+
+    <string-array name="repeatModes">
+        <item>بدون تکرار</item>
+        <item>روزانه</item>
+        <item>هفتگی</item>
+        <item>ماهانه</item>
+    </string-array>
+</resources>
