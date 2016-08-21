@@ -12,7 +12,10 @@
     <string name="task_create_repeating_period">Repeat</string>
     <string name="create_task_add">Add</string>
     <string name="tic_toc">Tic Toc</string>
-
+    <string name="task_create_add_description">add description</string>
+    <string name="task_create_positive">Add</string>
+    <string name="task_create_negative">Cancel</string>
+    <string name="description_hint">Description</string>
     <string-array name="repeatModes">
         <item>No Repeat</item>
         <item>Every Day</item>

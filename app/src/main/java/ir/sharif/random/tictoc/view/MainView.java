@@ -29,8 +29,8 @@ public class MainView extends AppCompatActivity
         , FragmentCreateTask.CallBack, FragmentTaskList.CallBack {
 
     protected final String TAG = getClass().getSimpleName();
-    private final String CREATE_TASK_FRAGMENT_TAG = "CreateTaskFragment";
-    private final String TASK_LIST_FRAGMENT_TAG = "TaskListFragment";
+    public final String CREATE_TASK_FRAGMENT_TAG = "CreateTaskFragment";
+    public final String TASK_LIST_FRAGMENT_TAG = "TaskListFragment";
 
     private FragmentTaskList fragmentTaskList;
     private FragmentCreateTask fragmentCreateTask;

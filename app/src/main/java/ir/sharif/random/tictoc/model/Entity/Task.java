@@ -10,6 +10,7 @@ public class Task {
     private String title;
     private Category category;
     private String date;
+    private String description;
     private String startTime;
     private String endTime;
     private boolean isCompleted = false; // the default value is no completed
@@ -53,6 +54,15 @@ public class Task {
 
     public Task setDate(String date) {
         this.date = date;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Task setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -100,4 +110,5 @@ public class Task {
         isCompleted = completed;
         return this;
     }
+
 }

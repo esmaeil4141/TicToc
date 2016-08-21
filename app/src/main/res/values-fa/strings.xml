@@ -27,6 +27,10 @@
     <string name="tic_toc">
         تیک تاک
     </string>
+    <string name="task_create_add_description">
+        توضیحات
+    </string>
+    <string name="description_hint">Description</string>
 
     <string-array name="repeatModes">
         <item>بدون تکرار</item>
