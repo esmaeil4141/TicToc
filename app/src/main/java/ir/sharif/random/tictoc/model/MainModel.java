@@ -13,11 +13,11 @@ import ir.sharif.random.tictoc.model.localDataBase.DataBaseService;
 public class MainModel implements MainMVPInterface.ProvidedModelOps {
 
     private MainMVPInterface.RequiredPresenterOps mPresenter;
-    private WeakReference<DataBaseService> dataBaseService;
+    private DataBaseService dataBaseService;
 
     public MainModel(MainMVPInterface.RequiredPresenterOps mPresenter, DataBaseService service) {
         this.mPresenter = mPresenter;
-        this.dataBaseService=new WeakReference<>(service);
+        this.dataBaseService = service;
     }
 
     @Override
@@ -27,11 +27,11 @@ public class MainModel implements MainMVPInterface.ProvidedModelOps {
 
     @Override
     public void createTask(Task task) {
-        dataBaseService.get().create(task);
+        dataBaseService.create(task);
     }
 
     @Override
     public ArrayList<Task> getAllTasks(){
-        return dataBaseService.get().findAllTasks();
+        return dataBaseService.findAllTasks();
     }
 }
