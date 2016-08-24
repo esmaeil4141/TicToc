@@ -44,7 +44,6 @@ public class FragmentTaskList extends ListFragment {
         tasks.add(new Task("shayan","alaki"));tasks.add(new Task("ali","alaki"));
         adapter = new TaskArrayAdapter(getActivity(), R.layout.list_item, tasks);
         setListAdapter(adapter);
-        callBack.onTaskListReady();
     }
 
     @Override
@@ -60,5 +59,6 @@ public class FragmentTaskList extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        callBack.onTaskListReady();
     }
 }
