@@ -1,5 +1,8 @@
 package ir.sharif.random.tictoc.view;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -45,10 +48,8 @@ public class MainView extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getBaseContext().getResources().getConfiguration().setLocale(new Locale("fa"));
-        super.onCreate(savedInstanceState);//todo alaki
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dataBaseService = new DataSource(this);
-        startMVPOps();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,7 +85,8 @@ public class MainView extends AppCompatActivity
             // Create the fragment
             fragmentCreateTask = new FragmentCreateTask();
         }
-        mPresenter.onCreate();
+        dataBaseService = new DataSource(this);
+        startMVPOps();
     }
 
     public void startMVPOps() {
@@ -110,7 +112,7 @@ public class MainView extends AppCompatActivity
             throws InstantiationException, IllegalAccessException {
         mPresenter = new MainPresenter(view, service);
         mStateMaintainer.put(MainMVPInterface.ProvidedPresenterOps.class.getSimpleName(), mPresenter);
-
+        mPresenter.onCreate();
     }
 
     /**
@@ -199,12 +201,14 @@ public class MainView extends AppCompatActivity
                 .replace(R.id.main_fragment_container, fragmentTaskList, TASK_LIST_FRAGMENT_TAG)
                 .commit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.show();
     }
 
     @Override
     public void showAllTasks(ArrayList<Task> tasks) {
+        if (fragmentTaskList == null) {
+            fragmentTaskList =
+                    (FragmentTaskList) getFragmentManager().findFragmentByTag(TASK_LIST_FRAGMENT_TAG);
+        }
         fragmentTaskList.updateTaskList(tasks);
     }
 
@@ -215,6 +219,8 @@ public class MainView extends AppCompatActivity
 
     @Override
     public void onTaskListReady() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.show();
         mPresenter.onTaskListViewCreated();
     }
 }
