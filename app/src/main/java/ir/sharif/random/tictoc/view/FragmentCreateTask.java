@@ -33,12 +33,18 @@ import ir.sharif.random.tictoc.model.entity.Task;
 /**
  * Created by Mojtaba on 8/14/2016.
  */
-public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnDateSetListener, DescriptionFragment.NoticeDialogListener {
+public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnDateSetListener
+        , DescriptionFragment.NoticeDialogListener {
     private String title;
     private String date;
     private String startTime;
     private String endTime;
     private String description;
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     private int repeat = 0;
     private CallBack callback;
 
@@ -145,7 +151,7 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
             public void onClick(View view) {
                 DescriptionFragment descriptionFragment = new DescriptionFragment();
                 descriptionFragment.show(getFragmentManager(), "DescriptionDialog");
-                descriptionFragment.injectListener(FragmentCreateTask.this);
+                descriptionFragment.attachListener(FragmentCreateTask.this);
             }
         });
         return root;
