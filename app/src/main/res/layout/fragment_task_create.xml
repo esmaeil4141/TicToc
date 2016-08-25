@@ -8,45 +8,105 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/title_hint" />
 
-    <Button
-        android:id="@+id/buttonDatePick"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/task_create_date" />
+        android:layout_marginTop="20dp">
 
-    <Button
-        android:id="@+id/buttonStartTimePick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/task_create_start_time" />
+        <TextView
+            android:id="@+id/DateName"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/task_create_date"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/buttonEndTimePick"
+        <TextView
+            android:id="@+id/tvDatePick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/DateName"
+            android:layout_toRightOf="@+id/DateName"
+            android:text="@string/touch_to_set"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/task_create_end_time" />
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/startName"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/task_create_start_time"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvStartTimePick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/startName"
+            android:layout_toRightOf="@+id/startName"
+            android:text="@string/touch_to_set"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/endName"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/task_create_end_time"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvEndTimePick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/endName"
+            android:layout_toRightOf="@+id/endName"
+            android:text="@string/touch_to_set"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:weightSum="2">
 
         <TextView
             android:id="@+id/tv1"
             android:layout_width="0dp"
-            android:layout_weight="0.8"
+
             android:layout_height="wrap_content"
+            android:layout_weight="0.8"
             android:text="@string/task_create_repeating_period"
             android:textSize="15sp" />
+
         <Spinner
             android:id="@+id/periodSpinner"
             android:layout_width="0dp"
-            android:layout_weight="1.2"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2" />
     </LinearLayout>
 
     <Button
@@ -61,4 +121,5 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:text="@string/create_task_add" />
+
 </LinearLayout>

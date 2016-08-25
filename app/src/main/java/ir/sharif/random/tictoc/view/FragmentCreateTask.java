@@ -1,12 +1,8 @@
 package ir.sharif.random.tictoc.view;
 
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
@@ -35,15 +32,20 @@ import ir.sharif.random.tictoc.model.entity.Task;
  */
 public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnDateSetListener
         , DescriptionFragment.NoticeDialogListener {
+    public static final String TITLE = "TITLE";
+    public static final String DATE = "DATE";
+    public static final String START_TIME = "START_TIME";
+    public static final String END_TIME = "END_TIME";
+    public static final String DESCRIPTION = "DESCRIPTION";
+
     private String title;
     private String date;
     private String startTime;
     private String endTime;
     private String description;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    TextView tvDatePick;
+    TextView tvstartTime;
 
     private int repeat = 0;
     private CallBack callback;
@@ -53,12 +55,11 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_task_create, container, false);
 
-        Button buttonDatePick = (Button) root.findViewById(R.id.buttonDatePick);
-        buttonDatePick.setOnClickListener(new View.OnClickListener() {
+        tvDatePick = (TextView) root.findViewById(R.id.tvDatePick);
+        tvDatePick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 PersianCalendar persianCalendar = new PersianCalendar();
-
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
                         FragmentCreateTask.this,
                         persianCalendar.getPersianYear(),
@@ -69,8 +70,8 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
             }
         });
 
-        Button startTimeButton = (Button) root.findViewById(R.id.buttonStartTimePick);
-        startTimeButton.setOnClickListener(new View.OnClickListener() {
+        tvstartTime = (TextView) root.findViewById(R.id.tvStartTimePick);
+        tvstartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
@@ -78,13 +79,14 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
                             @Override
                             public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
                                 startTime = hourOfDay + ":" + minute + ":" + "00";
+                                tvstartTime.setText(startTime);
                             }
                         }, 0, 0, true);
                 timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
             }
         });
-        final Button endTimeButton = (Button) root.findViewById(R.id.buttonEndTimePick);
-        endTimeButton.setOnClickListener(new View.OnClickListener() {
+        final TextView tvEndTimePick = (TextView) root.findViewById(R.id.tvEndTimePick);
+        tvEndTimePick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
@@ -92,6 +94,7 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
                             @Override
                             public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
                                 endTime = hourOfDay + ":" + minute + ":" + "00";
+                                tvEndTimePick.setText(endTime);
                             }
                         }, 0, 0, true);
                 timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
@@ -162,8 +165,9 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
         Calendar c = Calendar.getInstance();
         c.set(year, monthOfYear, dayOfMonth);
         date = (new SimpleDateFormat("yyyy-MM-dd").format(c.getTime()));
-
+        tvDatePick.setText(date);
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -178,6 +182,28 @@ public class FragmentCreateTask extends Fragment implements DatePickerDialog.OnD
 
     public interface CallBack {
         void onCreateTaskClicked(Task task);
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString(DATE, date);
+        outState.putString(START_TIME, startTime);
+        outState.putString(END_TIME, endTime);
+        outState.putString(DESCRIPTION, description);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            date = savedInstanceState.getString(DATE);
+            startTime = savedInstanceState.getString(START_TIME);
+            endTime = savedInstanceState.getString(END_TIME);
+            description = savedInstanceState.getString(DESCRIPTION);
+        }
     }
 }
 
