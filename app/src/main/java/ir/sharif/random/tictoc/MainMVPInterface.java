@@ -22,6 +22,10 @@ public interface MainMVPInterface {
 
         void onTaskListViewCreated();
 
+        void onTaskListItemClick(Task task);
+
+        void onEditTaskClicked(Task task);
+
     }
 
     public interface ProvidedModelOps {
@@ -30,6 +34,8 @@ public interface MainMVPInterface {
         void createTask(Task task);
 
         ArrayList<Task> getAllTasks();
+
+        void removeTask(Task task);
     }
 
     public interface RequiredViewOps {
@@ -38,6 +44,8 @@ public interface MainMVPInterface {
         void showTaskListView();
 
         void showAllTasks(ArrayList<Task> tasks);
+
+        void showTaskEditView(Task task);
     }
 
     public interface RequiredPresenterOps {

@@ -1,8 +1,5 @@
 package ir.sharif.random.tictoc.view;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -29,11 +26,13 @@ import ir.sharif.random.tictoc.presenter.MainPresenter;
 
 public class MainView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, MainMVPInterface.RequiredViewOps
-        , FragmentCreateTask.CallBack, FragmentTaskList.CallBack {
+        , FragmentCreateTask.CallBack, FragmentTaskList.CallBack, FragmentEditTask.CallBack {
 
     protected final String TAG = getClass().getSimpleName();
     public final String CREATE_TASK_FRAGMENT_TAG = "CreateTaskFragment";
     public final String TASK_LIST_FRAGMENT_TAG = "TaskListFragment";
+    public final String EDIT_TASK_FRAGMENT_TAG = "EditTaskFragment";
+
 
     private FragmentTaskList fragmentTaskList;
     private FragmentCreateTask fragmentCreateTask;
@@ -213,6 +212,27 @@ public class MainView extends AppCompatActivity
     }
 
     @Override
+    public void showTaskEditView(Task task) {
+        FragmentEditTask fragmentEditTask = new FragmentEditTask();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FragmentEditTask.TITLE, task.getTitle());
+        bundle.putString(FragmentEditTask.DATE, task.getDate());
+        bundle.putString(FragmentEditTask.START_TIME, task.getStartTime());
+        bundle.putString(FragmentEditTask.END_TIME, task.getEndTime());
+        bundle.putString(FragmentEditTask.DESCRIPTION, task.getDescription());
+        bundle.putInt(FragmentEditTask.REPEAT, task.getRepeatPeriod());
+        fragmentEditTask.setArguments(bundle);
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.main_fragment_container, fragmentEditTask, EDIT_TASK_FRAGMENT_TAG)
+                .commit();
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.hide();
+
+    }
+
+    @Override
     public void onCreateTaskClicked(Task task) {
         mPresenter.createNewTask(task);
     }
@@ -222,5 +242,15 @@ public class MainView extends AppCompatActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.show();
         mPresenter.onTaskListViewCreated();
+    }
+
+    @Override
+    public void onItemClick(Task task) {
+        mPresenter.onTaskListItemClick(task);
+    }
+
+    @Override
+    public void onEditTaskClicked(Task task) {
+        mPresenter.onEditTaskClicked(task);
     }
 }

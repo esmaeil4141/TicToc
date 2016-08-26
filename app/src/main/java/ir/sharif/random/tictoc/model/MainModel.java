@@ -34,4 +34,11 @@ public class MainModel implements MainMVPInterface.ProvidedModelOps {
     public ArrayList<Task> getAllTasks(){
         return dataBaseService.findAllTasks();
     }
+
+    @Override
+    public void removeTask(Task task) {
+        long id = task.getId();
+        if (id != 0)
+            dataBaseService.removeTaskById(id);
+    }
 }

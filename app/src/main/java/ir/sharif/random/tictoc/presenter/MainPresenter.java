@@ -1,5 +1,7 @@
 package ir.sharif.random.tictoc.presenter;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -20,6 +22,16 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
 
     // Configuration change state
     private boolean mIsChangingConfig;
+
+    private Task editingTask;
+
+    public void setEditingTask(Task editingTask) {
+        this.editingTask = editingTask;
+    }
+
+    public Task getEditingTask() {
+        return editingTask;
+    }
 
     //constructor method
     public MainPresenter(MainMVPInterface.RequiredViewOps mView, DataBaseService service) {
@@ -64,6 +76,20 @@ public class MainPresenter implements MainMVPInterface.RequiredPresenterOps
     public void onTaskListViewCreated() {
         ArrayList<Task> tasks = mModel.getAllTasks();
         mView.get().showAllTasks(tasks);
+    }
+
+    @Override
+    public void onTaskListItemClick(Task task) {
+        setEditingTask(task);
+        mView.get().showTaskEditView(task);
+    }
+
+    @Override
+    public void onEditTaskClicked(Task task) {
+        mModel.removeTask(getEditingTask());
+        mModel.createTask(task);
+        mView.get().showTaskListView();
+
     }
 
     @Override

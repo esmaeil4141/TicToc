@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,10 +22,13 @@ import ir.sharif.random.tictoc.model.entity.Task;
  * Created by Mojtaba on 8/14/2016.
  */
 public class FragmentTaskList extends ListFragment {
+    private ListView listView;
     public CallBack callBack;
     //    ArrayList<Task> tasks;
     private TaskArrayAdapter adapter;
-    public FragmentTaskList(){}
+
+    public FragmentTaskList() {
+    }
 
     public void updateTaskList(ArrayList<Task> tasks) {
         adapter.updateTaskList(tasks);
@@ -40,10 +44,10 @@ public class FragmentTaskList extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ArrayList<Task> tasks  = new ArrayList<>();
-        tasks.add(new Task("shayan","alaki"));tasks.add(new Task("ali","alaki"));
+        ArrayList<Task> tasks = new ArrayList<>();
         adapter = new TaskArrayAdapter(getActivity(), R.layout.list_item, tasks);
         setListAdapter(adapter);
+
     }
 
     @Override
@@ -54,11 +58,21 @@ public class FragmentTaskList extends ListFragment {
 
     public interface CallBack {
         void onTaskListReady();
+
+        void onItemClick(Task task);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         callBack.onTaskListReady();
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+        Task selectedTask = adapter.getItem(position);
+        callBack.onItemClick(selectedTask);
+
     }
 }

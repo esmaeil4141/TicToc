@@ -38,7 +38,10 @@ public class TaskArrayAdapter extends ArrayAdapter<Task> {
         return this.tasks.size();
     }
 
-
+    @Override
+    public Task getItem(int position) {
+        return tasks.get(position);
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

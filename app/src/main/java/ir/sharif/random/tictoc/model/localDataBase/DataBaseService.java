@@ -8,6 +8,9 @@ import ir.sharif.random.tictoc.model.entity.Task;
  * Created by Mojtaba on 8/14/2016.
  */
 public interface DataBaseService {
-    public Task create(Task task);
-    public ArrayList<Task> findAllTasks();
+    Task create(Task task);
+
+    ArrayList<Task> findAllTasks();
+
+    boolean removeTaskById(long id);
 }
