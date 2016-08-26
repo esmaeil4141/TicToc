@@ -11,15 +11,18 @@
     <string name="title_hint">
         کار مورد نظر
     </string>
-    <string name="task_create_date">تاریخ</string>
+    <string name="task_create_date">
+        تاریخ:
+    </string>
+
     <string name="task_create_start_time">
-        زمان شروع (دلخواه)
+        شروع:
     </string>
     <string name="task_create_end_time">
-        زمان پایان (دلخواه)
+        پایان:
     </string>
     <string name="task_create_repeating_period">
-        تکرار
+        تکرار:
     </string>
     <string name="create_task_add">
         اضافه کن
@@ -28,9 +31,17 @@
         تیک تاک
     </string>
     <string name="task_create_add_description">
+        افزودن توضیحات
+    </string>
+    <string name="description_hint">
         توضیحات
     </string>
-    <string name="description_hint">Description</string>
+    <string name="touch_to_set">
+        لمس کنید
+    </string>
+    <string name="apply">
+        تغییر بده
+    </string>
 
     <string-array name="repeatModes">
         <item>بدون تکرار</item>
